@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microsoft Certified: Azure Administrator Associate (AZ-104) — AZ-104 — Mock Test 2</title>
+<style>
+  :root{
+    --bg:#0b1020;
+    --bg-soft:#111834;
+    --card:#151d3d;
+    --card-2:#1a2348;
+    --border:#293264;
+    --text:#e8ecff;
+    --muted:#93a0cc;
+    --accent:#4f7cff;
+    --accent-2:#7c5cff;
+    --green:#22c55e;
+    --red:#ef4444;
+    --amber:#f59e0b;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(1200px 800px at 10% -10%, #1c2456 0%, transparent 60%),
+               radial-gradient(1000px 700px at 110% 10%, #241a4d 0%, transparent 55%),
+               var(--bg);
+    color:var(--text);
+    font-family:"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height:100vh;
+  }
+  a{color:var(--accent);}
+  .hidden{display:none !important;}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 20px 60px;}
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;border-bottom:1px solid var(--border);
+    background:rgba(10,14,30,0.65);backdrop-filter:blur(6px);
+    position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:10px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.3px;}
+  .brand .logo{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;
+  }
+  .brand small{display:block;color:var(--muted);font-weight:400;font-size:12px;}
+  .pill{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--card-2);border:1px solid var(--border);
+    padding:6px 12px;border-radius:999px;font-size:13px;color:var(--muted);
+  }
+  .btn{
+    border:none;cursor:pointer;font-weight:700;font-size:14.5px;
+    padding:11px 18px;border-radius:10px;color:#fff;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    transition:filter .15s ease, transform .1s ease;
+  }
+  .btn:hover{filter:brightness(1.12);}
+  .btn:active{transform:scale(.98);}
+  .btn.secondary{background:var(--card-2);border:1px solid var(--border);color:var(--text);}
+  .btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text);}
+  .btn.block{width:100%;}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+
+  /* ---------- Rules Screen ---------- */
+  .rules-card{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:28px;max-width:760px;margin:30px auto;
+  }
+  .rules-card h2{margin-top:0;}
+  .rules-card ul{line-height:1.9;color:var(--text);padding-left:20px;}
+  .rules-card ul li b{color:#fff;}
+  .info-chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 22px;}
+  .info-chip{
+    background:var(--card-2);border:1px solid var(--border);border-radius:10px;
+    padding:8px 14px;font-size:13px;color:var(--muted);
+  }
+  .info-chip b{color:#fff;display:block;font-size:15px;}
+  .rules-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:24px;flex-wrap:wrap;}
+  table.domain-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13.5px;}
+  table.domain-table th,table.domain-table td{
+    text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);
+  }
+  table.domain-table th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px;}
+
+  /* ---------- Exam Screen ---------- */
+  .exam-shell{display:none;}
+  .exam-top{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:12px 20px;background:rgba(10,14,30,0.85);border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:60;flex-wrap:wrap;
+  }
+  .exam-top .et-left{display:flex;align-items:center;gap:14px;font-weight:700;}
+  .exam-top .et-mid{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:13.5px;}
+  .timer{
+    font-variant-numeric:tabular-nums;font-weight:800;font-size:16px;color:#fff;
+    background:var(--card-2);border:1px solid var(--border);padding:6px 14px;border-radius:10px;
+  }
+  .timer.low{color:#fff;background:#4a1720;border-color:#7a1f2a;animation:pulse 1s infinite;}
+  @keyframes pulse{0%{opacity:1;}50%{opacity:.55;}100%{opacity:1;}}
+
+  .exam-body{display:grid;grid-template-columns:1fr 300px;gap:22px;max-width:1200px;margin:22px auto;padding:0 20px;}
+  @media (max-width:880px){.exam-body{grid-template-columns:1fr;}}
+
+  .qcard{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px;min-height:420px;display:flex;flex-direction:column;
+  }
+  .qmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+  .qmeta .domain-tag{
+    background:var(--card-2);border:1px solid var(--border);color:var(--muted);
+    font-size:12px;padding:4px 10px;border-radius:999px;
+  }
+  .flag-btn{
+    background:transparent;border:1px solid var(--border);color:var(--muted);
+    padding:6px 12px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:600;
+  }
+  .flag-btn.active{background:#3a2b12;border-color:var(--amber);color:var(--amber);}
+  .q-text{font-size:17px;line-height:1.65;margin:6px 0 20px;white-space:pre-wrap;}
+  .multi-hint{color:var(--amber);font-size:12.5px;margin:-12px 0 16px;font-weight:600;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .option{
+    display:flex;align-items:flex-start;gap:12px;
+    background:var(--card-2);border:1px solid var(--border);border-radius:11px;
+    padding:13px 15px;cursor:pointer;transition:border-color .12s ease, background .12s ease;
+  }
+  .option:hover{border-color:var(--accent);}
+  .option input{margin-top:3px;accent-color:var(--accent);}
+  .option.selected{border-color:var(--accent);background:#182452;}
+  .option .otag{
+    flex:0 0 auto;width:24px;height:24px;border-radius:7px;background:rgba(255,255,255,.06);
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);
+  }
+  .option.selected .otag{background:var(--accent);color:#fff;}
+  .option .otext{line-height:1.5;font-size:14.8px;}
+
+  .qnav-footer{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:10px;flex-wrap:wrap;}
+  .qnav-footer .center-label{color:var(--muted);font-size:13.5px;}
+
+  .side-card{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:18px;margin-bottom:16px;
+  }
+  .side-card h4{margin:0 0 12px;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+  .progress-row{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px;}
+  .bar-bg{height:8px;border-radius:6px;background:var(--card-2);overflow:hidden;margin-bottom:14px;}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:12px;}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  .dot.current{background:var(--accent);}
+  .dot.answered{background:var(--green);}
+  .dot.flagged{background:var(--amber);}
+  .dot.unanswered{background:#3a4372;}
+
+  .navgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;}
+  .navbtn{
+    aspect-ratio:1;border-radius:8px;border:1px solid var(--border);
+    background:#3a4372;color:#fff;font-size:12.5px;font-weight:700;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;
+  }
+  .navbtn.answered{background:var(--green);}
+  .navbtn.flagged{background:var(--amber);color:#1a1200;}
+  .navbtn.flagged.answered{background:var(--amber);box-shadow:inset 0 0 0 2px var(--green);}
+  .navbtn.current{outline:2px solid #fff;outline-offset:2px;}
+
+  /* ---------- Modals ---------- */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(4,6,16,.72);backdrop-filter:blur(3px);
+    display:flex;align-items:center;justify-content:center;z-index:200;
+  }
+  .modal{
+    background:var(--card);border:1px solid var(--border);border-radius:16px;
+    padding:28px;max-width:440px;width:92%;text-align:center;
+  }
+  .modal .icon{font-size:40px;margin-bottom:8px;}
+  .modal h3{margin:6px 0 10px;}
+  .modal p{color:var(--muted);line-height:1.6;font-size:14.5px;}
+  .modal-actions{display:flex;gap:12px;justify-content:center;margin-top:22px;}
+
+  /* ---------- Results ---------- */
+  .results-shell{display:none;}
+  .score-card{
+    max-width:680px;margin:34px auto 0;background:var(--card);border:1px solid var(--border);
+    border-radius:18px;padding:34px;text-align:center;
+  }
+  .score-ring{
+    width:170px;height:170px;border-radius:50%;margin:10px auto 18px;
+    display:flex;align-items:center;justify-content:center;position:relative;
+  }
+  .score-ring .ring-inner{
+    width:138px;height:138px;border-radius:50%;background:var(--card);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+  }
+  .score-ring .ring-inner .pct{font-size:34px;font-weight:800;}
+  .score-ring .ring-inner .lbl{font-size:12px;color:var(--muted);}
+  .result-status{
+    display:inline-block;padding:7px 18px;border-radius:999px;font-weight:800;font-size:14px;margin-bottom:6px;
+    letter-spacing:.4px;
+  }
+  .result-status.pass{background:#0f3b26;color:#4ade80;}
+  .result-status.fail{background:#3b1420;color:#ff6b81;}
+  .score-sub{color:var(--muted);font-size:14px;margin-top:4px;}
+  .score-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px 0 6px;}
+  .score-metrics .m{background:var(--card-2);border:1px solid var(--border);border-radius:10px;padding:12px;}
+  .score-metrics .m .v{font-size:18px;font-weight:800;}
+  .score-metrics .m .k{font-size:11.5px;color:var(--muted);margin-top:2px;}
+  .results-actions{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap;}
+
+  .breakdown-wrap{max-width:820px;margin:34px auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px;}
+  .breakdown-wrap h3{margin-top:0;}
+  .domain-row{margin-bottom:16px;}
+  .domain-row .dr-top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;}
+  .domain-row .dr-top .dname{font-weight:600;}
+  .domain-row .dr-top .dscore{color:var(--muted);}
+  .domain-bar-bg{height:10px;background:var(--card-2);border-radius:6px;overflow:hidden;}
+  .domain-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent-2));}
+
+  /* ---------- Review ---------- */
+  .review-shell{display:none;}
+  .review-list{max-width:900px;margin:20px auto 60px;padding:0 20px;display:flex;flex-direction:column;gap:16px;}
+  .review-item{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;
+  }
+  .review-item .ri-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
+  .ri-top .rtag{font-size:12px;color:var(--muted);background:var(--card-2);border:1px solid var(--border);padding:4px 10px;border-radius:999px;}
+  .ri-status{font-size:12.5px;font-weight:800;padding:4px 12px;border-radius:999px;}
+  .ri-status.correct{background:#0f3b26;color:#4ade80;}
+  .ri-status.incorrect{background:#3b1420;color:#ff6b81;}
+  .ri-status.skipped{background:#2a2a3f;color:#a7a7c9;}
+  .review-item .rq-text{font-size:15.5px;line-height:1.6;margin-bottom:14px;}
+  .review-item .roption{
+    padding:10px 13px;border-radius:9px;border:1px solid var(--border);font-size:14px;margin-bottom:8px;
+    background:var(--card-2);display:flex;gap:10px;
+  }
+  .review-item .roption.your-correct{border-color:var(--green);background:#0f2a1c;}
+  .review-item .roption.your-wrong{border-color:var(--red);background:#2a1017;}
+  .review-item .roption.correct-not-chosen{border-color:var(--green);background:#0e2116;}
+  .roption .rtagmini{font-size:11px;font-weight:700;padding:1px 7px;border-radius:6px;}
+  .rtagmini.you{background:var(--accent);color:#fff;}
+  .rtagmini.ans{background:var(--green);color:#08240f;}
+  .explain-box{
+    margin-top:12px;background:#101636;border:1px solid var(--border);border-radius:10px;padding:13px 15px;
+    font-size:13.8px;color:var(--muted);line-height:1.6;
+  }
+  .explain-box b{color:#cfe0ff;}
+  .review-filters{display:flex;gap:8px;flex-wrap:wrap;max-width:900px;margin:20px auto 0;padding:0 20px;}
+  .fbtn{background:var(--card-2);border:1px solid var(--border);color:var(--muted);padding:7px 14px;border-radius:999px;font-size:13px;cursor:pointer;}
+  .fbtn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .footer-note{text-align:center;color:var(--muted);font-size:12.5px;margin-top:50px;}
+</style>
+</head>
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<div class="topbar" id="topbar">
+  <div class="brand">
+    <div class="logo">AZ</div>
+    <div>AZ-104 — Mock Test 2<small>Microsoft Certified: Azure Administrator Associate (AZ-104)</small></div>
+  </div>
+  <a class="pill" href="index.html">← All mock tests</a>
+</div>
+
+<!-- ================= RULES (start screen) ================= -->
+<div id="screen-rules" class="wrap">
+  <div class="rules-card">
+    <span class="pill">Practice · Mock Test 2</span>
+    <h2>⚠ Exam Rules — Read Before Starting</h2>
+    <div class="info-chips">
+      <div class="info-chip"><b>50</b>Questions</div>
+      <div class="info-chip"><b>100 min</b>Time limit</div>
+      <div class="info-chip"><b>70%</b>Passing score</div>
+      <div class="info-chip"><b>Single-select</b>Question type</div>
+    </div>
+    <ul>
+      <li>Do <b>NOT</b> switch tabs or minimize the browser — your exam will be paused and a warning issued.</li>
+      <li><b>3 tab-switch warnings</b> will automatically end and submit your exam.</li>
+      <li>Some questions use a "Does the solution meet the goal?" scenario format — read carefully.</li>
+      <li>You can <b>flag questions</b> for review and return to them any time before submitting.</li>
+      <li>Use the <b>Question Navigator</b> to jump directly to any question.</li>
+      <li>Once <b>submitted</b>, answers cannot be changed.</li>
+    </ul>
+    <table class="domain-table">
+      <thead><tr><th>Domain</th><th>Topic</th><th>Weight</th></tr></thead>
+      <tbody>
+        <tr><td>Domain 1</td><td>Manage Azure identities and governance</td><td>20–25%</td></tr>
+        <tr><td>Domain 2</td><td>Implement and manage storage</td><td>15–20%</td></tr>
+        <tr><td>Domain 3</td><td>Deploy and manage Azure compute resources</td><td>20–25%</td></tr>
+        <tr><td>Domain 4</td><td>Implement and manage virtual networking</td><td>15–20%</td></tr>
+        <tr><td>Domain 5</td><td>Monitor and maintain Azure resources</td><td>10–15%</td></tr>
+      </tbody>
+    </table>
+    <div class="rules-actions">
+      <a class="btn secondary" href="index.html">← Back to all tests</a>
+      <button class="btn" id="startExamBtn" onclick="beginExam()">▶ Start Exam Now</button>
+    </div>
+  </div>
+  <div class="footer-note">© 2026 AZ-104 Practice Hub — Original practice questions for exam-style preparation. Not affiliated with or endorsed by Microsoft.</div>
+</div>
+
+<!-- ================= EXAM ================= -->
+<div id="screen-exam" class="exam-shell">
+  <div class="exam-top">
+    <div class="et-left"><span>AZ-104 — Mock Test 2</span></div>
+    <div class="et-mid">
+      <span>Answered <b id="answeredCount">0</b>/50</span>
+      <span>Flagged <b id="flaggedCount">0</b></span>
+    </div>
+    <div class="timer" id="timerDisplay">⏱ 100:00</div>
+  </div>
+
+  <div class="exam-body">
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="domain-tag" id="qDomain">Domain</span>
+        <button class="flag-btn" id="flagBtn" onclick="toggleFlag()">🚩 Flag for review</button>
+      </div>
+      <div class="q-text" id="qText">Question text...</div>
+      <div class="multi-hint hidden" id="multiHint">Select exactly 2 answers.</div>
+      <div class="options" id="optionsWrap"></div>
+
+      <div class="qnav-footer">
+        <button class="btn ghost" id="prevBtn" onclick="prevQuestion()">← Prev</button>
+        <span class="center-label">Question <b id="qNumLabel">1</b> of <b>50</b></span>
+        <button class="btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="side-card">
+        <h4>Progress</h4>
+        <div class="progress-row"><span>Answered</span><span id="sideAnswered">0 / 50</span></div>
+        <div class="bar-bg"><div class="bar-fill" id="progressBar" style="width:0%"></div></div>
+        <div class="legend">
+          <span><span class="dot current"></span>Current</span>
+          <span><span class="dot answered"></span>Answered</span>
+          <span><span class="dot flagged"></span>Flagged</span>
+          <span><span class="dot unanswered"></span>Unanswered</span>
+        </div>
+      </div>
+      <div class="side-card">
+        <h4>Question Navigator</h4>
+        <div class="navgrid" id="navGrid"></div>
+      </div>
+      <button class="btn block" style="background:linear-gradient(135deg,#ef4444,#b91c1c)" onclick="requestSubmit()">Submit Exam →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RESULTS ================= -->
+<div id="screen-results" class="results-shell">
+  <div class="wrap" style="padding-top:0;">
+    <div class="score-card">
+      <span class="pill">AZ-104 — Mock Test 2</span>
+      <div class="score-ring" id="scoreRing">
+        <div class="ring-inner">
+          <div class="pct" id="scorePct">0%</div>
+          <div class="lbl">Score</div>
+        </div>
+      </div>
+      <div class="result-status" id="resultStatus">PASS</div>
+      <div class="score-sub" id="resultSub">You scored 0 out of 50 (0%). Passing score is 70%.</div>
+      <div class="score-metrics">
+        <div class="m"><div class="v" id="mCorrect">0</div><div class="k">Correct</div></div>
+        <div class="m"><div class="v" id="mIncorrect">0</div><div class="k">Incorrect</div></div>
+        <div class="m"><div class="v" id="mSkipped">0</div><div class="k">Skipped</div></div>
+        <div class="m"><div class="v" id="mTime">0:00</div><div class="k">Time used</div></div>
+      </div>
+      <div class="results-actions">
+        <button class="btn secondary" onclick="retakeExam()">↺ Retake Exam</button>
+        <button class="btn" onclick="openReview()">🔍 Review All Questions</button>
+        <a class="btn ghost" href="index.html">🏠 All Mock Tests</a>
+      </div>
+    </div>
+
+    <div class="breakdown-wrap">
+      <h3>📊 Domain-wise Breakdown</h3>
+      <div id="domainBreakdown"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= REVIEW ================= -->
+<div id="screen-review" class="review-shell">
+  <div class="topbar">
+    <div class="brand"><div class="logo">AZ</div><div>Review Mode<small>AZ-104 — Mock Test 2</small></div></div>
+    <button class="btn secondary" onclick="backToResults()">← Back to Results</button>
+  </div>
+  <div class="review-filters">
+    <button class="fbtn active" data-f="all" onclick="setReviewFilter('all')">All</button>
+    <button class="fbtn" data-f="incorrect" onclick="setReviewFilter('incorrect')">Incorrect</button>
+    <button class="fbtn" data-f="correct" onclick="setReviewFilter('correct')">Correct</button>
+    <button class="fbtn" data-f="skipped" onclick="setReviewFilter('skipped')">Skipped</button>
+    <button class="fbtn" data-f="flagged" onclick="setReviewFilter('flagged')">Flagged</button>
+  </div>
+  <div class="review-list" id="reviewList"></div>
+</div>
+
+<!-- ================= MODALS ================= -->
+<div class="modal-overlay hidden" id="tabWarnModal">
+  <div class="modal">
+    <div class="icon">🚨</div>
+    <h3>You Left the Exam!</h3>
+    <p>Switching tabs or minimizing the browser is not allowed during the exam. Warning <b id="warnNum">1</b> of 3.</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeTabWarn()">Return to Exam</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="submitModal">
+  <div class="modal">
+    <div class="icon">📝</div>
+    <h3>Submit Exam?</h3>
+    <p id="submitModalText">You have answered some questions. Once submitted, you cannot change your answers. Are you sure you want to submit?</p>
+    <div class="modal-actions">
+      <button class="btn secondary" onclick="closeSubmitModal()">Cancel</button>
+      <button class="btn" onclick="doSubmit(false)">Submit</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="autoSubmitModal">
+  <div class="modal">
+    <div class="icon">⛔</div>
+    <h3>Exam Auto-Submitted</h3>
+    <p>You exceeded the maximum of 3 tab-switch warnings, so your exam has been automatically submitted with your current answers.</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeAutoSubmitModal()">View Results</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   QUESTIONS injected below — single mock test (50 questions)
+   ============================================================ */
+const QUESTIONS = [{"id": "t2q001", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "You need to view which Azure RBAC roles are assigned to a specific user across all scopes in a subscription, including roles inherited from a parent management group. What should you use?", "options": [{"id": "a", "text": "The Access control (IAM) blade with the 'View my access' or 'Check access' option and the Deny assignments view"}, {"id": "b", "text": "Azure Policy compliance view"}, {"id": "c", "text": "A resource lock report"}, {"id": "d", "text": "Cost Management budgets"}], "correct": ["a"], "explanation": "The Access control (IAM) blade provides a Check access feature that lets you see the effective role assignments for a specific user, including roles inherited from higher scopes such as management groups."}, {"id": "t2q002", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "You need to grant a service principal used by a CI/CD pipeline permission to deploy resources into a single resource group only, without giving it access to any other resource group in the subscription. What should you do?", "options": [{"id": "a", "text": "Assign the Owner role at the subscription scope"}, {"id": "b", "text": "Assign an appropriate role, such as Contributor, to the service principal scoped only to that resource group"}, {"id": "c", "text": "Add the service principal to the Global Administrator role"}, {"id": "d", "text": "Create a management group for the service principal"}], "correct": ["b"], "explanation": "Following the principle of least privilege, you should scope the role assignment as narrowly as possible—in this case, to the specific resource group—rather than granting broader subscription-level access."}, {"id": "t2q003", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "Your organization wants external users from a partner company to sign in using their own corporate credentials rather than creating separate Microsoft accounts. What Microsoft Entra feature enables this?", "options": [{"id": "a", "text": "Microsoft Entra B2B collaboration (guest users)"}, {"id": "b", "text": "Conditional access"}, {"id": "c", "text": "Azure Policy"}, {"id": "d", "text": "Management groups"}], "correct": ["a"], "explanation": "Microsoft Entra B2B collaboration allows you to invite external users as guests, who can then sign in using their existing organizational credentials while accessing resources you grant them permission to."}, {"id": "t2q004", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "You need to enforce that all storage accounts created in a subscription must have secure transfer (HTTPS) enabled, and any noncompliant storage account creation attempts must be blocked outright. What should you configure?", "options": [{"id": "a", "text": "An Azure Policy definition with a Deny effect assigned to the subscription"}, {"id": "b", "text": "A resource lock on the subscription"}, {"id": "c", "text": "An RBAC custom role"}, {"id": "d", "text": "A budget alert"}], "correct": ["a"], "explanation": "Azure Policy with a Deny effect prevents the creation or update of resources that do not comply with the policy rule, which is appropriate for enforcing mandatory security settings like secure transfer."}, {"id": "t2q005", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "You want to identify unused resources, oversized virtual machines, and other cost-saving opportunities across your subscription without manually reviewing every resource. What should you use?", "options": [{"id": "a", "text": "Azure Advisor cost recommendations"}, {"id": "b", "text": "Azure Policy"}, {"id": "c", "text": "Resource locks"}, {"id": "d", "text": "Management groups"}], "correct": ["a"], "explanation": "Azure Advisor analyzes resource usage and configuration to provide recommendations across cost, security, reliability, operational excellence, and performance, including identifying underutilized or idle resources."}, {"id": "t2q006", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "You need to prevent any user, including administrators, from modifying the configuration of a production virtual network while still allowing the resource to be viewed by everyone with access to the resource group. Which lock type should you apply?", "options": [{"id": "a", "text": "CanNotDelete"}, {"id": "b", "text": "ReadOnly"}, {"id": "c", "text": "Contributor"}, {"id": "d", "text": "Owner"}], "correct": ["b"], "explanation": "A ReadOnly lock prevents any modification to the resource's configuration, restricting users to read-only operations, while a CanNotDelete lock only prevents deletion but still allows configuration changes."}, {"id": "t2q007", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "Your company structure includes a Production management group and a Development management group, each containing multiple subscriptions. You need a security baseline Azure Policy initiative applied to all subscriptions in both groups without assigning it twice. What should you do?", "options": [{"id": "a", "text": "Assign the initiative separately to each subscription"}, {"id": "b", "text": "Assign the initiative at a parent management group that contains both the Production and Development management groups"}, {"id": "c", "text": "Assign the initiative to a resource group in each subscription"}, {"id": "d", "text": "Create a duplicate policy for each management group"}], "correct": ["b"], "explanation": "Assigning the policy initiative at a common parent management group above both child management groups ensures the policy inherits down to every subscription in both groups with a single assignment."}, {"id": "t2q008", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "A user reports that they cannot see any resources in the Azure portal for a subscription, even though an administrator confirms they were added to the Contributor role at the subscription scope two minutes ago. What is the most likely explanation?", "options": [{"id": "a", "text": "RBAC role assignments can take a short time to propagate; the user should refresh or wait briefly"}, {"id": "b", "text": "Contributor role does not allow viewing any resources"}, {"id": "c", "text": "The subscription must be restarted"}, {"id": "d", "text": "RBAC changes require a support ticket to activate"}], "correct": ["a"], "explanation": "Azure RBAC role assignments can occasionally take a few minutes to fully propagate. Waiting and refreshing the portal typically resolves the issue without further action."}, {"id": "t2q009", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "You need to give a group of auditors permission to view resource configurations and RBAC assignments across the subscription but must ensure they cannot make any changes. Which built-in role should you assign?", "options": [{"id": "a", "text": "Contributor"}, {"id": "b", "text": "Reader"}, {"id": "c", "text": "User Access Administrator"}, {"id": "d", "text": "Owner"}], "correct": ["b"], "explanation": "The Reader role grants view-only access to Azure resources, including their configuration, without allowing any changes, which matches the auditors' requirement."}, {"id": "t2q010", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "You need to require multi-factor authentication for all users signing in from outside the corporate network, but not for sign-ins from trusted office IP ranges. What should you configure?", "options": [{"id": "a", "text": "A resource lock"}, {"id": "b", "text": "A conditional access policy with a location condition and a grant control requiring MFA"}, {"id": "c", "text": "Azure Policy"}, {"id": "d", "text": "Group-based licensing"}], "correct": ["b"], "explanation": "Conditional access policies can evaluate conditions such as sign-in location (named locations/trusted IP ranges) and apply grant controls, such as requiring MFA, only when specific conditions are met."}, {"id": "t2q011", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "You need to create 500 guest user accounts from a CSV file containing external partner email addresses, so that each partner receives an invitation email to join your tenant as a guest. Which PowerShell cmdlet is designed for this scenario?", "options": [{"id": "a", "text": "New-AzADUser, run once per row in the CSV file"}, {"id": "b", "text": "New-MgInvitation (or the equivalent invitation cmdlet), run once per row in the CSV file"}, {"id": "c", "text": "Set-AzPolicyAssignment"}, {"id": "d", "text": "New-AzRoleAssignment"}], "correct": ["b"], "explanation": "Creating guest users requires sending an invitation, which is done using an invitation cmdlet rather than a standard user-creation cmdlet. The invitation cmdlet sends an email that the external user must accept."}, {"id": "t2q012", "domain": "Manage Azure identities and governance", "type": "single", "correct_count": 1, "question": "You want departments to be billed accurately for the Azure resources they use, so every resource must carry a Department value that is enforced at creation time rather than relying on manual tagging discipline. What should you configure?", "options": [{"id": "a", "text": "A resource lock requiring a tag"}, {"id": "b", "text": "An Azure Policy definition that denies resource creation unless a Department tag is present, or that appends a default tag"}, {"id": "c", "text": "A management group with no policy"}, {"id": "d", "text": "A custom RBAC role that includes tagging permissions only"}], "correct": ["b"], "explanation": "Azure Policy can enforce tagging requirements, either by denying the creation of resources that lack a required tag or by automatically appending a default tag value, ensuring consistent tagging without relying purely on manual process."}, {"id": "t2q013", "domain": "Implement and manage storage", "type": "single", "correct_count": 1, "question": "Your company has two datacenters in different regions configured for site resiliency. Data must be stored on nodes in both regions, and you must be able to read the data from either region at any time. Which storage redundancy option meets these requirements with the least additional configuration?", "options": [{"id": "a", "text": "Locally redundant storage (LRS)"}, {"id": "b", "text": "Zone-redundant storage (ZRS)"}, {"id": "c", "text": "Read-access geo-redundant storage (RA-GRS)"}, {"id": "d", "text": "Geo-redundant storage (GRS) without read access"}], "correct": ["c"], "explanation": "RA-GRS replicates data across regions and additionally allows read access to the secondary region's data at all times, which matches the requirement to read from either region."}, {"id": "t2q014", "domain": "Implement and manage storage", "type": "single", "correct_count": 1, "question": "You want to grant a third-party application temporary, time-limited read access to a single blob without sharing your storage account key. What should you generate?", "options": [{"id": "a", "text": "A shared access signature (SAS) scoped to the blob with an expiry time"}, {"id": "b", "text": "A new storage account key"}, {"id": "c", "text": "A resource lock"}, {"id": "d", "text": "A management group"}], "correct": ["a"], "explanation": "A SAS token provides delegated, time-limited access to specific storage resources, such as a single blob, without exposing the account key, and its permissions and expiry can be tightly scoped."}, {"id": "t2q015", "domain": "Implement and manage storage", "type": "single", "correct_count": 1, "question": "You need to review the ARM template that was used to deploy a storage account and a virtual machine together by a colleague. Accessing the storage account's Overview blade does not show this information. Where should you look instead?", "options": [{"id": "a", "text": "The Container blade inside the storage account"}, {"id": "b", "text": "The Deployments history under the resource group's Deployments section"}, {"id": "c", "text": "The Virtual Machine blade"}, {"id": "d", "text": "The Activity Log of the storage account only"}], "correct": ["b"], "explanation": "The deployment history and the ability to view or export the ARM template used are found under the resource group's Deployments section, not within an individual resource's blade."}, {"id": "t2q016", "domain": "Implement and manage storage", "type": "single", "correct_count": 1, "question": "You need infrequently accessed data to remain available for immediate access, with a lower storage cost than Hot but a higher cost for read/write operations, and you expect the data to be accessed at most once a month. Which access tier should you choose?", "options": [{"id": "a", "text": "Hot"}, {"id": "b", "text": "Cool"}, {"id": "c", "text": "Archive"}, {"id": "d", "text": "Premium"}], "correct": ["b"], "explanation": "The Cool access tier is optimized for data that is infrequently accessed and stored for at least 30 days, offering lower storage costs than Hot with slightly higher access costs, while still supporting immediate access unlike Archive."}, {"id": "t2q017", "domain": "Implement and manage storage", "type": "single", "correct_count": 1, "question": "You need data written to blob storage in one region to be automatically copied to a blob container in a storage account located in a different region within minutes, for a specific set of containers only, rather than the entire account. What should you configure?", "options": [{"id": "a", "text": "Geo-redundant storage (GRS)"}, {"id": "b", "text": "Object replication"}, {"id": "c", "text": "Blob versioning"}, {"id": "d", "text": "Soft delete"}], "correct": ["b"], "explanation": "Object replication asynchronously copies block blobs between a source and destination storage account, which can be in different regions, and can be scoped to specific containers, unlike the automatic redundancy replication used by GRS."}, {"id": "t2q018", "domain": "Implement and manage storage", "type": "single", "correct_count": 1, "question": "You want to browse blob containers, upload and download files interactively, and manage access keys using a graphical interface rather than the command line. Which tool should you use?", "options": [{"id": "a", "text": "AzCopy"}, {"id": "b", "text": "Azure Storage Explorer"}, {"id": "c", "text": "Robocopy"}, {"id": "d", "text": "Azure CLI"}], "correct": ["b"], "explanation": "Azure Storage Explorer is a standalone graphical application that lets you interactively browse, upload, download, and manage Azure Storage resources, including blobs, files, and access keys."}, {"id": "t2q019", "domain": "Implement and manage storage", "type": "single", "correct_count": 1, "question": "You need to prevent an entire Azure file share from being accidentally deleted, while allowing individual files within it to still be created, modified, or deleted normally. What should you configure?", "options": [{"id": "a", "text": "A CanNotDelete resource lock on the storage account"}, {"id": "b", "text": "Soft delete for Azure file shares"}, {"id": "c", "text": "A private endpoint"}, {"id": "d", "text": "Object replication"}], "correct": ["b"], "explanation": "Soft delete for Azure file shares protects the file share itself from accidental deletion by retaining it for a configured retention period, allowing you to undelete the share if it is removed."}, {"id": "t2q020", "domain": "Implement and manage storage", "type": "single", "correct_count": 1, "question": "You need to take a point-in-time, read-only copy of a blob's current state that you can reference later, without duplicating the full data immediately, so you can compare it to a future modified version. What feature should you use?", "options": [{"id": "a", "text": "A blob snapshot"}, {"id": "b", "text": "A stored access policy"}, {"id": "c", "text": "A resource lock"}, {"id": "d", "text": "A service endpoint"}], "correct": ["a"], "explanation": "A blob snapshot captures the state of a blob at a specific point in time as a read-only copy, and only stores the incremental differences from the base blob, making it efficient for point-in-time references."}, {"id": "t2q021", "domain": "Implement and manage storage", "type": "single", "correct_count": 1, "question": "You need to restrict access to a storage account so that only traffic originating from a specific virtual network subnet is allowed, while completely denying access from the public internet, without deploying a private endpoint. What should you configure?", "options": [{"id": "a", "text": "A service endpoint for Microsoft.Storage on the subnet, combined with a storage account firewall rule permitting that virtual network"}, {"id": "b", "text": "A shared access signature"}, {"id": "c", "text": "Blob versioning"}, {"id": "d", "text": "Object replication"}], "correct": ["a"], "explanation": "Configuring a service endpoint on the subnet and then adding that virtual network/subnet to the storage account's firewall allows traffic only from the specified subnet while denying general internet access, without requiring a private endpoint."}, {"id": "t2q022", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "You downloaded an ARM template from a colleague that references an administrative password parameter. Your security policy requires that the password never be stored in plain text within the template or parameter file. What should you create to reference the password securely?", "options": [{"id": "a", "text": "An Azure Storage account and a SAS token"}, {"id": "b", "text": "An Azure Key Vault and an access policy allowing the deployment to retrieve the secret"}, {"id": "c", "text": "A management group"}, {"id": "d", "text": "A backup policy"}], "correct": ["b"], "explanation": "Storing sensitive values such as passwords in Azure Key Vault and referencing them from the ARM template parameter file, using a Key Vault reference and an appropriate access policy, avoids storing secrets in plain text."}, {"id": "t2q023", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "You need to deploy several nearly identical virtual machines using a Bicep file, changing only the VM name and size for each deployment. What is the most efficient approach?", "options": [{"id": "a", "text": "Write a separate, fully independent Bicep file for every VM"}, {"id": "b", "text": "Use parameters in the Bicep file for values that differ, such as name and size, and reuse the same file for each deployment"}, {"id": "c", "text": "Manually create each VM in the Azure portal instead"}, {"id": "d", "text": "Hardcode all values directly in the Bicep file"}], "correct": ["b"], "explanation": "Using parameters allows a single Bicep file to be reused across multiple deployments by supplying different parameter values for name, size, and other differing settings, avoiding duplicated template code."}, {"id": "t2q024", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "You need to move an existing virtual machine, along with its associated disks and network interface, from one resource group to another resource group within the same subscription and region. What should you do?", "options": [{"id": "a", "text": "Delete the VM and recreate it in the new resource group"}, {"id": "b", "text": "Use the Move resources feature to move the VM and its dependent resources to the target resource group"}, {"id": "c", "text": "Use Azure Site Recovery to fail over to the new resource group"}, {"id": "d", "text": "Change the resource group by editing the ARM template only"}], "correct": ["b"], "explanation": "Azure supports moving resources, including VMs and their dependent resources like disks and NICs, between resource groups within the same subscription (or across subscriptions) using the Move resources feature."}, {"id": "t2q025", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "You need to change the size (SKU) of a running virtual machine from Standard_D2s_v3 to Standard_D4s_v3. The new size is available in the current hardware cluster. What is required?", "options": [{"id": "a", "text": "The VM must be deleted and redeployed"}, {"id": "b", "text": "The VM will be automatically restarted as part of the resize operation"}, {"id": "c", "text": "You must first move the VM to a different subscription"}, {"id": "d", "text": "No downtime occurs during a resize"}], "correct": ["b"], "explanation": "Resizing a virtual machine to a size within the same hardware cluster typically requires a restart of the VM as part of the resize operation, resulting in brief downtime, though the VM's data is preserved."}, {"id": "t2q026", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "You attempt to resize a VM that is part of an availability set with two other VMs, and Azure returns an allocation failure. You must ensure the resize completes successfully. What should you do?", "options": [{"id": "a", "text": "Only stop the VM being resized"}, {"id": "b", "text": "Stop all VMs in the availability set, then perform the resize, then restart all the VMs"}, {"id": "c", "text": "Remove the VM from the availability set permanently"}, {"id": "d", "text": "Increase the number of fault domains"}], "correct": ["b"], "explanation": "When an allocation failure occurs while resizing a VM in an availability set, stopping (deallocating) all VMs in the set releases the cluster's allocated resources, allowing Azure to reallocate capacity for the resize; the VMs can then be restarted."}, {"id": "t2q027", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "You have a VM with a single data disk and must attach that data disk to a different VM, minimizing downtime for both VMs. What should you do first?", "options": [{"id": "a", "text": "Stop the VM that the disk will be attached to"}, {"id": "b", "text": "Stop the VM that currently has the data disk attached, then detach the disk"}, {"id": "c", "text": "Delete the original VM"}, {"id": "d", "text": "Detach the disk while the VM is still running"}], "correct": ["b"], "explanation": "A data disk cannot be safely detached from a running VM. The first step is to stop the VM that currently has the disk attached so the disk can be detached without risking data corruption, then it can be attached to the target VM."}, {"id": "t2q028", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "You need to capture a generalized image of a Windows Server VM configured in your on-premises environment, and then make that image available for creating new Azure VMs. Which PowerShell cmdlet uploads the generalized image so it appears as an image resource in Azure?", "options": [{"id": "a", "text": "Add-AzVM"}, {"id": "b", "text": "Add-AzVhd"}, {"id": "c", "text": "Add-AzImage"}, {"id": "d", "text": "New-AzVM"}], "correct": ["c"], "explanation": "After generalizing the VM with Sysprep and capturing it, the Add-AzImage cmdlet is used to upload and register the generalized image in Azure so it is available for creating new virtual machines."}, {"id": "t2q029", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "You need to configure a Virtual Machine Scale Set so that during planned maintenance, Azure updates VM instances in batches, keeping as many instances running as possible at any given time. Which property should you configure to a high value?", "options": [{"id": "a", "text": "platformFaultDomainCount"}, {"id": "b", "text": "platformUpdateDomainCount"}, {"id": "c", "text": "overprovisioning"}, {"id": "d", "text": "singlePlacementGroup"}], "correct": ["b"], "explanation": "The platformUpdateDomainCount property controls how many update domains the instances are spread across; a higher value means fewer instances are affected during any single planned maintenance update, keeping more instances available."}, {"id": "t2q030", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "You need to configure an Azure App Service plan so that additional instances are added automatically when average CPU usage exceeds 70 percent, and removed automatically when usage drops, within a defined minimum and maximum instance count. What should you configure?", "options": [{"id": "a", "text": "Manual scale-up only"}, {"id": "b", "text": "Autoscale rules with metric-based scale-out and scale-in conditions"}, {"id": "c", "text": "A deployment slot"}, {"id": "d", "text": "A resource lock"}], "correct": ["b"], "explanation": "Autoscale rules based on metrics like CPU percentage allow an App Service plan to automatically scale out (add instances) and scale in (remove instances) within configured minimum and maximum limits."}, {"id": "t2q031", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "Your organization wants to run private container images and ensure the registry automatically scans images for known vulnerabilities. Which SKU tier of Azure Container Registry should you consider for advanced features such as content trust and geo-replication?", "options": [{"id": "a", "text": "Basic"}, {"id": "b", "text": "Standard"}, {"id": "c", "text": "Premium"}, {"id": "d", "text": "Free"}], "correct": ["c"], "explanation": "The Premium SKU of Azure Container Registry provides the highest throughput along with advanced features such as geo-replication, content trust, and private link support, which are not available in the Basic or Standard tiers."}, {"id": "t2q032", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "You are deploying a containerized workload that must automatically restart if the container crashes, but should not restart once it completes successfully after a one-time batch job finishes. Which Azure Container Instances restart policy should you configure?", "options": [{"id": "a", "text": "Always"}, {"id": "b", "text": "Never"}, {"id": "c", "text": "OnFailure"}, {"id": "d", "text": "Manual"}], "correct": ["c"], "explanation": "The OnFailure restart policy restarts the container only if it exits with an error, but does not restart it after a successful (zero exit code) completion, which fits a one-time batch job scenario."}, {"id": "t2q033", "domain": "Deploy and manage Azure compute resources", "type": "single", "correct_count": 1, "question": "You need to swap a staging deployment slot into production for an App Service, but you are concerned the swap will briefly send live traffic to an app instance that has not yet fully started. What feature helps mitigate this?", "options": [{"id": "a", "text": "Auto swap with local cache disabled"}, {"id": "b", "text": "Swap with warm-up, so the target slot is warmed up before traffic is routed to it"}, {"id": "c", "text": "Scale down before the swap"}, {"id": "d", "text": "Deleting the staging slot"}], "correct": ["b"], "explanation": "App Service swap operations warm up the target slot instances by applying settings and triggering the app to start before completing the swap, reducing the risk of downtime or cold-start issues after the swap."}, {"id": "t2q034", "domain": "Implement and manage virtual networking", "type": "single", "correct_count": 1, "question": "You configured a point-to-site VPN to VNetA, and VNetA is peered with VNetB with Allow gateway transit enabled on VNetA. Users can reach VNetB from on-premises but the point-to-site VPN client still cannot reach VNetB. What is most likely missing?", "options": [{"id": "a", "text": "Allow gateway transit must instead be enabled on VNetB"}, {"id": "b", "text": "Use remote gateways must be enabled on VNetB's side of the peering, and the VPN client configuration may need to be re-downloaded to include the new routes"}, {"id": "c", "text": "A new site-to-site VPN must be created"}, {"id": "d", "text": "NSGs must be removed entirely"}], "correct": ["b"], "explanation": "For point-to-site clients connected to VNetA to reach a peered VNetB, VNetB's peering must have Use remote gateways enabled, and the VPN client configuration package often needs to be reinstalled to pick up the new routes."}, {"id": "t2q035", "domain": "Implement and manage virtual networking", "type": "single", "correct_count": 1, "question": "You need to allow inbound HTTPS traffic to web servers from the internet, but only from a specific set of trusted IP ranges, while denying all other inbound traffic on that port. What is the most direct way to achieve this?", "options": [{"id": "a", "text": "An NSG inbound rule that allows HTTPS from the trusted IP ranges at a lower priority number than a broader deny rule"}, {"id": "b", "text": "A user-defined route"}, {"id": "c", "text": "A service endpoint"}, {"id": "d", "text": "Azure Bastion"}], "correct": ["a"], "explanation": "An NSG can allow traffic from specific IP ranges on a given port by creating an allow rule for those ranges with a priority number lower (evaluated first) than any broader deny rule, effectively permitting only the trusted sources."}, {"id": "t2q036", "domain": "Implement and manage virtual networking", "type": "single", "correct_count": 1, "question": "You need to evaluate the combined effect of all NSGs applied to a specific network interface, including both the subnet-level and NIC-level NSGs, to understand which rule ultimately allows or denies a given flow. What feature should you use?", "options": [{"id": "a", "text": "Effective security rules in Network Watcher"}, {"id": "b", "text": "Azure Advisor"}, {"id": "c", "text": "Cost Management"}, {"id": "d", "text": "A resource lock"}], "correct": ["a"], "explanation": "Network Watcher's effective security rules feature aggregates all NSG rules applied at both the subnet and NIC level to show the combined, effective set of rules for a given network interface."}, {"id": "t2q037", "domain": "Implement and manage virtual networking", "type": "single", "correct_count": 1, "question": "You need two virtual networks in different Azure regions to communicate with each other using private IP addresses, without routing traffic over the public internet or through a VPN gateway. What should you configure?", "options": [{"id": "a", "text": "Global virtual network peering"}, {"id": "b", "text": "A public load balancer"}, {"id": "c", "text": "A service endpoint"}, {"id": "d", "text": "Azure Bastion"}], "correct": ["a"], "explanation": "Global VNet peering connects virtual networks across different Azure regions using the Microsoft backbone network, allowing private IP communication without a VPN gateway or exposure to the public internet."}, {"id": "t2q038", "domain": "Implement and manage virtual networking", "type": "single", "correct_count": 1, "question": "You need to expose an internal web application to specific partner organizations over a private connection to an Azure PaaS service, such as an Azure SQL Database, using a private IP address from your own virtual network rather than a public endpoint. What should you configure?", "options": [{"id": "a", "text": "A service endpoint"}, {"id": "b", "text": "A private endpoint"}, {"id": "c", "text": "A public load balancer"}, {"id": "d", "text": "An application security group"}], "correct": ["b"], "explanation": "A private endpoint provisions a private IP address from your virtual network for the PaaS service, allowing traffic to reach it privately without traversing the public internet, unlike a service endpoint which keeps the service's public endpoint."}, {"id": "t2q039", "domain": "Implement and manage virtual networking", "type": "single", "correct_count": 1, "question": "You need to configure outbound internet connectivity for VMs in a subnet that do not have public IP addresses, ensuring a predictable set of outbound public IP addresses is used and avoiding SNAT port exhaustion under heavy load. What should you deploy?", "options": [{"id": "a", "text": "An NSG"}, {"id": "b", "text": "A NAT gateway associated with the subnet"}, {"id": "c", "text": "A service endpoint"}, {"id": "d", "text": "Azure Bastion"}], "correct": ["b"], "explanation": "A NAT gateway provides scalable outbound-only internet connectivity for resources without public IPs, using a defined set of public IP addresses, and is specifically designed to reduce SNAT port exhaustion compared to the default outbound access or basic load balancer SNAT."}, {"id": "t2q040", "domain": "Implement and manage virtual networking", "type": "single", "correct_count": 1, "question": "You need to create a private DNS zone that resolves names for resources in a virtual network but must ensure that VMs in a second, unpeered virtual network can also resolve those same names. What must you do?", "options": [{"id": "a", "text": "Nothing further is needed once the zone is created"}, {"id": "b", "text": "Link the private DNS zone to the second virtual network as well"}, {"id": "c", "text": "Enable auto registration only on the first VNet"}, {"id": "d", "text": "Create a public DNS zone instead"}], "correct": ["b"], "explanation": "A private DNS zone must be explicitly linked to every virtual network that needs to resolve names in that zone. Linking it only to the first VNet means other, unlinked VNets cannot resolve those records."}, {"id": "t2q041", "domain": "Implement and manage virtual networking", "type": "single", "correct_count": 1, "question": "Users report intermittent failures connecting to a web application behind an internal load balancer. You need to determine whether the backend pool VMs are passing the load balancer's health probe. What should you check first?", "options": [{"id": "a", "text": "The NSG rules on the frontend subnet only"}, {"id": "b", "text": "The health probe configuration and status for the backend pool in the load balancer"}, {"id": "c", "text": "The storage account firewall"}, {"id": "d", "text": "The Azure Policy compliance dashboard"}], "correct": ["b"], "explanation": "If backend VMs fail the load balancer's health probe, they are removed from rotation and will not receive traffic. Reviewing the health probe configuration and current probe status is the appropriate first troubleshooting step."}, {"id": "t2q042", "domain": "Implement and manage virtual networking", "type": "single", "correct_count": 1, "question": "You need to restrict management (RDP/SSH) access to your virtual machines to only be possible through Azure Bastion, and you must ensure no NSG rule allows direct RDP or SSH from the internet to the VMs. What should you verify or configure?", "options": [{"id": "a", "text": "Ensure the VMs have public IP addresses so Bastion can reach them"}, {"id": "b", "text": "Remove or restrict any NSG rules allowing inbound RDP/SSH (3389/22) from the internet directly to the VM subnet, since Bastion connects over HTTPS through its own subnet"}, {"id": "c", "text": "Disable the NSG entirely"}, {"id": "d", "text": "Configure a service endpoint for Microsoft.Compute"}], "correct": ["b"], "explanation": "Azure Bastion connects to VMs over their private IP addresses through its own dedicated subnet, so VMs do not need public IPs or inbound NSG rules allowing direct RDP/SSH from the internet; those rules should be removed or restricted to enforce Bastion-only access."}, {"id": "t2q043", "domain": "Monitor and maintain Azure resources", "type": "single", "correct_count": 1, "question": "You need to write a query that returns the average CPU percentage per virtual machine over the last 24 hours from data stored in a Log Analytics workspace. Which language should you use?", "options": [{"id": "a", "text": "SQL"}, {"id": "b", "text": "Kusto Query Language (KQL)"}, {"id": "c", "text": "PowerShell"}, {"id": "d", "text": "Bicep"}], "correct": ["b"], "explanation": "Log Analytics workspaces are queried using Kusto Query Language (KQL), which is optimized for exploring and analyzing large volumes of log and telemetry data."}, {"id": "t2q044", "domain": "Monitor and maintain Azure resources", "type": "single", "correct_count": 1, "question": "You configured an alert rule but no notifications are being received when the alert fires. You confirm the alert rule condition and threshold are correct. What should you check next?", "options": [{"id": "a", "text": "Whether an action group with valid notification channels is associated with the alert rule"}, {"id": "b", "text": "The subscription's cost budget"}, {"id": "c", "text": "The resource group's tags"}, {"id": "d", "text": "The NSG rules on the resource"}], "correct": ["a"], "explanation": "An alert rule defines the condition that triggers the alert, but notifications and automated responses are handled by an associated action group. If no action group is attached, or its channels are misconfigured, no notifications will be sent."}, {"id": "t2q045", "domain": "Monitor and maintain Azure resources", "type": "single", "correct_count": 1, "question": "You need to restore a single file from within a VM backup, without restoring or recreating the entire virtual machine. What Azure Backup feature supports this?", "options": [{"id": "a", "text": "Instant Restore only"}, {"id": "b", "text": "File-level recovery from a VM backup recovery point"}, {"id": "c", "text": "Reimaging the VM"}, {"id": "d", "text": "Blob soft delete"}], "correct": ["b"], "explanation": "Azure Backup for VMs supports file-level recovery, which allows you to mount a recovery point and browse or copy individual files without restoring the entire virtual machine."}, {"id": "t2q046", "domain": "Monitor and maintain Azure resources", "type": "single", "correct_count": 1, "question": "Your company needs the ability to fail over a group of dependent VMs together, in a specific boot order, to a secondary region during a disaster recovery drill, and then fail back once the primary region is available again. What Azure Site Recovery feature enables ordered, grouped failover?", "options": [{"id": "a", "text": "A backup policy"}, {"id": "b", "text": "A recovery plan"}, {"id": "c", "text": "A resource lock"}, {"id": "d", "text": "An availability set"}], "correct": ["b"], "explanation": "Azure Site Recovery recovery plans let you group multiple VMs together and define the failover order (including boot sequencing and optional scripts), which is essential when VMs have startup dependencies."}, {"id": "t2q047", "domain": "Monitor and maintain Azure resources", "type": "single", "correct_count": 1, "question": "You need to be alerted whenever the number of successful backup jobs in a Recovery Services vault drops below expectations over a rolling period, so you can proactively investigate before a restore is actually needed. What should you configure?", "options": [{"id": "a", "text": "A budget alert in Cost Management"}, {"id": "b", "text": "Backup alerts and notifications configured on the Recovery Services vault"}, {"id": "c", "text": "Network Watcher Connection Monitor"}, {"id": "d", "text": "A resource lock"}], "correct": ["b"], "explanation": "Recovery Services vaults provide built-in backup alerts and notification settings that can proactively notify administrators about backup job failures or irregularities."}, {"id": "t2q048", "domain": "Monitor and maintain Azure resources", "type": "single", "correct_count": 1, "question": "You want a single view that correlates VM performance metrics with the resources those VMs depend on, such as which VMs communicate with which other VMs, to help diagnose a performance bottleneck across a distributed application. What feature should you use?", "options": [{"id": "a", "text": "VM Insights Map view in Azure Monitor"}, {"id": "b", "text": "Azure Advisor recommendations"}, {"id": "c", "text": "A resource lock"}, {"id": "d", "text": "Cost Management"}], "correct": ["a"], "explanation": "The Map feature within VM Insights visually displays the dependencies and communication paths between monitored VMs and processes, helping diagnose issues in distributed applications."}, {"id": "t2q049", "domain": "Monitor and maintain Azure resources", "type": "single", "correct_count": 1, "question": "You need diagnostic logs from an Azure Application Gateway to be sent both to a Log Analytics workspace for querying and to a storage account for long-term archival, at the same time. What should you configure?", "options": [{"id": "a", "text": "Two separate resources with different diagnostic settings each capturing one destination only"}, {"id": "b", "text": "A single diagnostic setting on the Application Gateway with multiple destinations selected, including the Log Analytics workspace and the storage account"}, {"id": "c", "text": "A resource lock"}, {"id": "d", "text": "An availability zone configuration"}], "correct": ["b"], "explanation": "A single diagnostic setting can be configured to send logs and metrics to multiple destinations simultaneously, including a Log Analytics workspace, a storage account, and an event hub."}, {"id": "t2q050", "domain": "Monitor and maintain Azure resources", "type": "single", "correct_count": 1, "question": "You need to trigger an automatic scale-out of a Virtual Machine Scale Set whenever average CPU usage across instances exceeds 75 percent for 10 minutes. Where should you configure this behavior?", "options": [{"id": "a", "text": "An Azure Policy assignment"}, {"id": "b", "text": "Autoscale settings on the Virtual Machine Scale Set, using a CPU percentage metric rule"}, {"id": "c", "text": "A resource lock"}, {"id": "d", "text": "A backup policy"}], "correct": ["b"], "explanation": "Autoscale settings on a Virtual Machine Scale Set allow you to define metric-based rules, such as scaling out when average CPU exceeds a threshold for a sustained duration, to automatically adjust instance count."}];
+
+const TEST_LABEL = "AZ-104 — Mock Test 2";
+const TIME_LIMIT_SECONDS = 100 * 60;
+const PASS_PCT = 70;
+const MAX_WARNINGS = 3;
+
+let state = {
+  questions: QUESTIONS,
+  answers: {},      // qid -> array of selected option ids
+  flagged: new Set(),
+  currentIndex: 0,
+  timeLeft: TIME_LIMIT_SECONDS,
+  timerInterval: null,
+  tabWarnings: 0,
+  submitted: false,
+  reviewFilter: "all",
+  visibilityBlockedForModal: false,
+};
+
+function $(id){ return document.getElementById(id); }
+
+function showScreen(id){
+  $("screen-rules").classList.toggle("hidden", id!=="screen-rules");
+  $("screen-exam").style.display = (id==="screen-exam") ? "block" : "none";
+  $("screen-results").style.display = (id==="screen-results") ? "block" : "none";
+  $("screen-review").style.display = (id==="screen-review") ? "block" : "none";
+  $("topbar").style.display = (id==="screen-exam") ? "none" : "flex";
+  window.scrollTo({top:0, behavior:"instant"});
+}
+
+/* ---------------- Begin Exam ---------------- */
+function beginExam(){
+  state.answers = {};
+  state.flagged = new Set();
+  state.currentIndex = 0;
+  state.timeLeft = TIME_LIMIT_SECONDS;
+  state.tabWarnings = 0;
+  state.submitted = false;
+
+  showScreen("screen-exam");
+  buildNavGrid();
+  renderQuestion();
+  startTimer();
+}
+
+/* ---------------- Timer ---------------- */
+function startTimer(){
+  clearInterval(state.timerInterval);
+  updateTimerDisplay();
+  state.timerInterval = setInterval(()=>{
+    state.timeLeft--;
+    if(state.timeLeft <= 0){
+      state.timeLeft = 0;
+      updateTimerDisplay();
+      clearInterval(state.timerInterval);
+      doSubmit(true);
+      return;
+    }
+    updateTimerDisplay();
+  }, 1000);
+}
+function updateTimerDisplay(){
+  const m = Math.floor(state.timeLeft/60);
+  const s = state.timeLeft%60;
+  const txt = "⏱ " + String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
+  const el = $("timerDisplay");
+  el.textContent = txt;
+  el.classList.toggle("low", state.timeLeft <= 300);
+}
+
+/* ---------------- Rendering question ---------------- */
+function renderQuestion(){
+  const idx = state.currentIndex;
+  const qs = state.questions;
+  const qu = qs[idx];
+
+  $("qDomain").textContent = qu.domain;
+  $("qText").textContent = qu.question;
+  $("qNumLabel").textContent = (idx+1);
+
+  const isMulti = qu.correct_count > 1;
+  $("multiHint").classList.toggle("hidden", !isMulti);
+  if(isMulti){ $("multiHint").textContent = "Select exactly " + qu.correct_count + " answers."; }
+
+  const selected = state.answers[qu.id] || [];
+  const wrap = $("optionsWrap");
+  wrap.innerHTML = "";
+  qu.options.forEach(opt=>{
+    const div = document.createElement("div");
+    const isSel = selected.includes(opt.id);
+    div.className = "option" + (isSel ? " selected" : "");
+    div.onclick = ()=> selectOption(qu.id, opt.id, isMulti, qu.correct_count);
+    div.innerHTML = '<span class="otag">' + opt.id.toUpperCase() + '</span><span class="otext">' + escapeHtml(opt.text) + '</span>';
+    wrap.appendChild(div);
+  });
+
+  $("flagBtn").classList.toggle("active", state.flagged.has(qu.id));
+  $("flagBtn").textContent = state.flagged.has(qu.id) ? "🚩 Flagged" : "🚩 Flag for review";
+
+  $("prevBtn").disabled = idx === 0;
+  $("nextBtn").textContent = (idx === qs.length-1) ? "Finish →" : "Next →";
+
+  updateSideProgress();
+  updateNavGrid();
+}
+
+function escapeHtml(str){
+  const d = document.createElement("div");
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function selectOption(qid, optId, isMulti, correctCount){
+  let cur = state.answers[qid] ? state.answers[qid].slice() : [];
+  if(isMulti){
+    const i = cur.indexOf(optId);
+    if(i>=0){ cur.splice(i,1); }
+    else{
+      cur.push(optId);
+      if(cur.length > correctCount){ cur.shift(); }
+    }
+  } else {
+    cur = [optId];
+  }
+  state.answers[qid] = cur;
+  renderQuestion();
+}
+
+function toggleFlag(){
+  const qu = state.questions[state.currentIndex];
+  if(state.flagged.has(qu.id)) state.flagged.delete(qu.id);
+  else state.flagged.add(qu.id);
+  renderQuestion();
+}
+
+function nextQuestion(){
+  if(state.currentIndex < state.questions.length-1){
+    state.currentIndex++;
+    renderQuestion();
+  } else {
+    requestSubmit();
+  }
+}
+function prevQuestion(){
+  if(state.currentIndex>0){ state.currentIndex--; renderQuestion(); }
+}
+function goToQuestion(i){
+  state.currentIndex = i;
+  renderQuestion();
+}
+
+/* ---------------- Side progress / Navigator ---------------- */
+function updateSideProgress(){
+  const total = state.questions.length;
+  const answered = Object.keys(state.answers).filter(qid => state.answers[qid] && state.answers[qid].length>0).length;
+  $("answeredCount").textContent = answered;
+  $("flaggedCount").textContent = state.flagged.size;
+  $("sideAnswered").textContent = answered + " / " + total;
+  $("progressBar").style.width = Math.round((answered/total)*100) + "%";
+}
+
+function buildNavGrid(){
+  const grid = $("navGrid");
+  grid.innerHTML = "";
+  state.questions.forEach((qu, i)=>{
+    const b = document.createElement("button");
+    b.className = "navbtn";
+    b.textContent = i+1;
+    b.onclick = ()=> goToQuestion(i);
+    b.id = "navbtn-" + i;
+    grid.appendChild(b);
+  });
+}
+function updateNavGrid(){
+  state.questions.forEach((qu, i)=>{
+    const b = $("navbtn-"+i);
+    if(!b) return;
+    const answered = state.answers[qu.id] && state.answers[qu.id].length>0;
+    const flagged = state.flagged.has(qu.id);
+    b.classList.toggle("answered", !!answered);
+    b.classList.toggle("flagged", flagged);
+    b.classList.toggle("current", i===state.currentIndex);
+  });
+}
+
+/* ---------------- Tab-switch detection ---------------- */
+document.addEventListener("visibilitychange", ()=>{
+  if(document.hidden && $("screen-exam").style.display === "block" && !state.submitted){
+    state.tabWarnings++;
+    if(state.tabWarnings >= MAX_WARNINGS){
+      doSubmit(true);
+    } else {
+      state.visibilityBlockedForModal = true;
+    }
+  }
+});
+window.addEventListener("focus", ()=>{
+  if(state.visibilityBlockedForModal && !state.submitted){
+    state.visibilityBlockedForModal = false;
+    $("warnNum").textContent = state.tabWarnings;
+    $("tabWarnModal").classList.remove("hidden");
+  }
+});
+function closeTabWarn(){
+  $("tabWarnModal").classList.add("hidden");
+}
+
+/* ---------------- Submit flow ---------------- */
+function requestSubmit(){
+  const total = state.questions.length;
+  const answered = Object.keys(state.answers).filter(qid => state.answers[qid] && state.answers[qid].length>0).length;
+  $("submitModalText").textContent = answered < total
+    ? "You have answered " + answered + " of " + total + " questions. Once submitted, you cannot change your answers. Are you sure you want to submit?"
+    : "You have answered all " + total + " questions. Once submitted, you cannot change your answers. Are you sure you want to submit?";
+  $("submitModal").classList.remove("hidden");
+}
+function closeSubmitModal(){
+  $("submitModal").classList.add("hidden");
+}
+
+function doSubmit(auto){
+  if(state.submitted) return;
+  state.submitted = true;
+  clearInterval(state.timerInterval);
+  $("submitModal").classList.add("hidden");
+  $("tabWarnModal").classList.add("hidden");
+  computeResults();
+  if(auto){
+    $("autoSubmitModal").classList.remove("hidden");
+  } else {
+    showResults();
+  }
+}
+function closeAutoSubmitModal(){
+  $("autoSubmitModal").classList.add("hidden");
+  showResults();
+}
+
+/* ---------------- Scoring ---------------- */
+let lastResults = null;
+
+function computeResults(){
+  const qs = state.questions;
+  let correctN=0, incorrectN=0, skippedN=0;
+  const domainStats = {};
+  const perQuestion = [];
+
+  qs.forEach(qu=>{
+    const sel = (state.answers[qu.id] || []).slice().sort();
+    const correctAns = qu.correct.slice().sort();
+    const answered = sel.length>0;
+    const isCorrect = answered && sel.length===correctAns.length && sel.every((v,i)=>v===correctAns[i]);
+
+    if(!answered) skippedN++;
+    else if(isCorrect) correctN++;
+    else incorrectN++;
+
+    if(!domainStats[qu.domain]) domainStats[qu.domain] = {correct:0,total:0};
+    domainStats[qu.domain].total++;
+    if(isCorrect) domainStats[qu.domain].correct++;
+
+    perQuestion.push({
+      id: qu.id, domain: qu.domain, question: qu.question, options: qu.options,
+      selected: sel, correct: correctAns, isCorrect, answered,
+      explanation: qu.explanation, flagged: state.flagged.has(qu.id),
+    });
+  });
+
+  const total = qs.length;
+  const pct = Math.round((correctN/total)*100);
+  const timeUsed = TIME_LIMIT_SECONDS - state.timeLeft;
+
+  lastResults = {
+    correctN, incorrectN, skippedN, total, pct,
+    pass: pct >= PASS_PCT, domainStats, perQuestion, timeUsed,
+  };
+}
+
+function showResults(){
+  const r = lastResults;
+  $("scorePct").textContent = r.pct + "%";
+  $("resultStatus").textContent = r.pass ? "PASS" : "FAIL";
+  $("resultStatus").className = "result-status " + (r.pass ? "pass" : "fail");
+  $("resultSub").textContent = "You scored " + r.correctN + " out of " + r.total + " (" + r.pct + "%). Passing score is " + PASS_PCT + "%.";
+  $("mCorrect").textContent = r.correctN;
+  $("mIncorrect").textContent = r.incorrectN;
+  $("mSkipped").textContent = r.skippedN;
+  const tm = Math.floor(r.timeUsed/60), ts = r.timeUsed%60;
+  $("mTime").textContent = tm + ":" + String(ts).padStart(2,"0");
+
+  const ringColor = r.pass ? "var(--green)" : "var(--red)";
+  $("scoreRing").style.background = "conic-gradient(" + ringColor + " " + (r.pct*3.6) + "deg, var(--card-2) 0deg)";
+
+  const bd = $("domainBreakdown");
+  bd.innerHTML = "";
+  Object.keys(r.domainStats).forEach(domain=>{
+    const st = r.domainStats[domain];
+    const dp = Math.round((st.correct/st.total)*100);
+    const row = document.createElement("div");
+    row.className = "domain-row";
+    row.innerHTML =
+      '<div class="dr-top"><span class="dname">' + domain + '</span><span class="dscore">' + st.correct + ' / ' + st.total + ' (' + dp + '%)</span></div>' +
+      '<div class="domain-bar-bg"><div class="domain-bar-fill" style="width:' + dp + '%"></div></div>';
+    bd.appendChild(row);
+  });
+
+  $("screen-exam").style.display = "none";
+  $("screen-review").style.display = "none";
+  $("topbar").style.display = "flex";
+  $("screen-results").style.display = "block";
+  window.scrollTo({top:0, behavior:"instant"});
+}
+
+function retakeExam(){
+  $("screen-results").style.display = "none";
+  $("topbar").style.display = "flex";
+  showScreen("screen-rules");
+}
+
+/* ---------------- Review Mode ---------------- */
+function openReview(){
+  state.reviewFilter = "all";
+  document.querySelectorAll(".fbtn").forEach(b=>b.classList.toggle("active", b.dataset.f==="all"));
+  renderReviewList();
+  $("screen-results").style.display = "none";
+  $("topbar").style.display = "none";
+  $("screen-review").style.display = "block";
+  window.scrollTo({top:0, behavior:"instant"});
+}
+function backToResults(){
+  $("screen-review").style.display = "none";
+  $("topbar").style.display = "flex";
+  $("screen-results").style.display = "block";
+}
+function setReviewFilter(f){
+  state.reviewFilter = f;
+  document.querySelectorAll(".fbtn").forEach(b=>b.classList.toggle("active", b.dataset.f===f));
+  renderReviewList();
+}
+function renderReviewList(){
+  const list = $("reviewList");
+  list.innerHTML = "";
+  const f = state.reviewFilter;
+  lastResults.perQuestion.forEach((pq, i)=>{
+    let show = true;
+    if(f==="incorrect") show = pq.answered && !pq.isCorrect;
+    else if(f==="correct") show = pq.isCorrect;
+    else if(f==="skipped") show = !pq.answered;
+    else if(f==="flagged") show = pq.flagged;
+    if(!show) return;
+
+    const status = !pq.answered ? "skipped" : (pq.isCorrect ? "correct" : "incorrect");
+    const statusLabel = !pq.answered ? "Skipped" : (pq.isCorrect ? "Correct" : "Incorrect");
+
+    const item = document.createElement("div");
+    item.className = "review-item";
+    let optsHtml = "";
+    pq.options.forEach(opt=>{
+      const wasSelected = pq.selected.includes(opt.id);
+      const isCorrectOpt = pq.correct.includes(opt.id);
+      let cls = "roption";
+      let tagHtml = "";
+      if(wasSelected && isCorrectOpt){ cls += " your-correct"; tagHtml = '<span class="rtagmini you">YOU</span><span class="rtagmini ans">✓</span>'; }
+      else if(wasSelected && !isCorrectOpt){ cls += " your-wrong"; tagHtml = '<span class="rtagmini you">YOU</span>'; }
+      else if(!wasSelected && isCorrectOpt){ cls += " correct-not-chosen"; tagHtml = '<span class="rtagmini ans">✓</span>'; }
+      optsHtml += '<div class="' + cls + '"><span>' + opt.id.toUpperCase() + '.</span><span style="flex:1">' + escapeHtml(opt.text) + '</span>' + tagHtml + '</div>';
+    });
+
+    item.innerHTML =
+      '<div class="ri-top">' +
+        '<span class="rtag">' + pq.domain + ' · Q' + (i+1) + (pq.flagged ? " · 🚩 Flagged" : "") + '</span>' +
+        '<span class="ri-status ' + status + '">' + statusLabel + '</span>' +
+      '</div>' +
+      '<div class="rq-text">' + escapeHtml(pq.question) + '</div>' +
+      optsHtml +
+      '<div class="explain-box"><b>Explanation:</b> ' + escapeHtml(pq.explanation) + '</div>';
+    list.appendChild(item);
+  });
+  if(list.innerHTML === ""){
+    list.innerHTML = '<div class="review-item" style="text-align:center;color:var(--muted);">No questions match this filter.</div>';
+  }
+}
+
+/* ---------------- Init ---------------- */
+showScreen("screen-rules");
+</script>
+</body>
+</html>
