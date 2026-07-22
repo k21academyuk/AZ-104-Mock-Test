@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZ-104: Microsoft Azure Administrator — Practice Exam Simulator</title>
+<style>
+  :root{
+    --bg:#f6f8fc;
+    --card:#ffffff;
+    --card-2:#f1f4fa;
+    --border:#e2e8f4;
+    --text:#101828;
+    --muted:#5b6b8c;
+    --accent:#3b6cff;
+    --accent-2:#7b5cff;
+    --radius:14px;
+    --shadow:0 2px 10px rgba(20,30,60,0.06);
+    --shadow-hover:0 10px 26px rgba(20,30,60,0.10);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1100px 700px at 8% -12%, #eaf0ff 0%, transparent 60%),
+      radial-gradient(900px 650px at 112% 6%, #f1ecff 0%, transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 20px 60px;}
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;border-bottom:1px solid var(--border);
+    background:rgba(255,255,255,0.85);backdrop-filter:blur(6px);
+    position:sticky;top:0;z-index:50;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.3px;}
+  .brand .logo{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;
+  }
+  .brand small{display:block;color:var(--muted);font-weight:400;font-size:12px;}
+  .pill{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--card-2);border:1px solid var(--border);
+    padding:6px 12px;border-radius:999px;font-size:13px;color:var(--muted);
+  }
+  .hero{text-align:center;padding:40px 10px 10px;}
+  .hero h1{font-size:clamp(26px,4vw,40px);margin:6px 0 8px;color:#0b1430;}
+  .hero p{color:var(--muted);max-width:720px;margin:0 auto;font-size:16px;line-height:1.6;}
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:900px;margin:30px auto 10px;}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;box-shadow:var(--shadow);}
+  .stat .num{font-size:22px;font-weight:800;color:#0b1430;}
+  .stat .lbl{color:var(--muted);font-size:12.5px;margin-top:2px;}
+  .section-title{margin:44px 0 6px;font-size:21px;color:#0b1430;}
+  .section-sub{color:var(--muted);font-size:14.5px;max-width:760px;margin-bottom:22px;line-height:1.6;}
+  .test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
+  .test-card{
+    background:var(--card);
+    border:1px solid var(--border);border-radius:var(--radius);
+    padding:22px;display:flex;flex-direction:column;gap:12px;
+    box-shadow:var(--shadow);
+    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .test-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-hover);}
+  .badge{
+    align-self:flex-start;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;
+    padding:4px 10px;border-radius:999px;
+  }
+  .badge.starter{background:#e6f8ee;color:#159957;}
+  .badge.practice{background:#eaf1ff;color:#2f6fed;}
+  .badge.challenge{background:#fdeaf2;color:#e0407a;}
+  .test-card h3{margin:0;font-size:20px;color:#0b1430;}
+  .test-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.55;}
+  .test-card ul{margin:0;padding-left:18px;color:var(--muted);font-size:13.5px;line-height:1.7;}
+  .btn{
+    display:inline-block;text-align:center;text-decoration:none;
+    border:none;cursor:pointer;font-weight:700;font-size:14.5px;
+    padding:11px 18px;border-radius:10px;color:#fff;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    box-shadow:0 6px 16px rgba(59,108,255,0.28);
+    transition:filter .15s ease, transform .1s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn:active{transform:scale(.98);}
+  .btn.block{width:100%;}
+  table.domain-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+  table.domain-table th,table.domain-table td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);}
+  table.domain-table th{color:var(--muted);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.4px;background:var(--card-2);}
+  table.domain-table tr:last-child td{border-bottom:none;}
+  .footer-note{text-align:center;color:var(--muted);font-size:12.5px;margin-top:50px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="logo">AZ</div>
+    <div>AZ-104 Practice Hub<small>Microsoft Certified: Azure Administrator Associate</small></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="pill">Microsoft Certified · AZ-104</span>
+    <h1>Azure Administrator Associate Practice Tests</h1>
+    <p>Practice in a realistic exam environment with a countdown timer, question navigator, flagging, and instant domain-wise feedback. Choose a mock test below and start preparing with confidence.</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="num">3</div><div class="lbl">Mock Tests</div></div>
+    <div class="stat"><div class="num">50</div><div class="lbl">Questions / test</div></div>
+    <div class="stat"><div class="num">100</div><div class="lbl">Minutes each</div></div>
+    <div class="stat"><div class="num">5</div><div class="lbl">Skill domains</div></div>
+  </div>
+
+  <div class="section-title">Choose your mock test</div>
+  <div class="section-sub">These AZ-104 simulators provide timed, exam-style practice with instant feedback and cover the same Azure Administrator Associate exam domains across all three mock tests.</div>
+
+  <div class="test-grid">
+    <div class="test-card">
+      <span class="badge starter">Starter</span>
+      <h3>Mock Test 1</h3>
+      <p>Begin with the first AZ-104 simulator and get comfortable with the exam flow.</p>
+      <ul>
+        <li>Real exam-style interface</li>
+        <li>Timer and question navigator</li>
+        <li>Instant feedback workflow</li>
+      </ul>
+      <a class="btn block" href="az-104-mock-test-1.html">Start Mock Test 1</a>
+    </div>
+    <div class="test-card">
+      <span class="badge practice">Practice</span>
+      <h3>Mock Test 2</h3>
+      <p>Reinforce coverage with a second simulator using the same domain-aligned structure.</p>
+      <ul>
+        <li>Balanced AZ-104 coverage</li>
+        <li>Practice under timed conditions</li>
+        <li>Helpful for repetition and review</li>
+      </ul>
+      <a class="btn block" href="az-104-mock-test-2.html">Start Mock Test 2</a>
+    </div>
+    <div class="test-card">
+      <span class="badge challenge">Challenge</span>
+      <h3>Mock Test 3</h3>
+      <p>Use the third simulator as a final confidence check before the actual exam.</p>
+      <ul>
+        <li>Full mock experience</li>
+        <li>Same domain blueprint coverage</li>
+        <li>Good for final revision rounds</li>
+      </ul>
+      <a class="btn block" href="az-104-mock-test-3.html">Start Mock Test 3</a>
+    </div>
+  </div>
+
+  <div class="section-title">AZ-104 domain coverage</div>
+  <div class="section-sub">All three practice sets are aligned to the five domain areas and weightings below, based on the official Microsoft AZ-104 skills-measured outline.</div>
+  <table class="domain-table">
+    <thead><tr><th>Domain</th><th>Topic</th><th>Weight</th></tr></thead>
+    <tbody>
+      <tr><td>Domain 1</td><td>Manage Azure identities and governance</td><td>20–25%</td></tr>
+      <tr><td>Domain 2</td><td>Implement and manage storage</td><td>15–20%</td></tr>
+      <tr><td>Domain 3</td><td>Deploy and manage Azure compute resources</td><td>20–25%</td></tr>
+      <tr><td>Domain 4</td><td>Implement and manage virtual networking</td><td>15–20%</td></tr>
+      <tr><td>Domain 5</td><td>Monitor and maintain Azure resources</td><td>10–15%</td></tr>
+    </tbody>
+  </table>
+
+  <div class="footer-note">© 2026 AZ-104 Practice Hub — Practice questions are original and written for exam-style preparation.</div>
+</div>
+
+</body>
+</html>
